@@ -17,18 +17,22 @@ int main(){
 		p2 = fork();
 
 		if(p2 == 0){
-			printf("\ngrandchild has pid of: %d \n", getpid());
-			sleep(1);
+			sleep(10);
+			printf("\nGrandchild process with process id %d has complete. \n", getpid());
+			exit(1);
 		}
 		else if (p2 != 0){
-			printf("\nchild has pid of: %d \n", getpid());
 			waitpid(-1,NULL,0);
+			printf("\nChild process with process id %d has complete. \n", getpid());
+			exit(1);
 			
 		}
 	}
 	else if(p1 != 0){
-		printf("\nparent has pid of: %d \n", getpid());
 		waitpid(-1,NULL,0);
+		printf("\nParent process with process id %d has complete. \n", getpid());
+		exit(1);
+
 	}
 	return 0;
 }
