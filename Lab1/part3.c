@@ -29,15 +29,28 @@ int main(){
 	char* clone[1000];
     int pid;
 	reduce = strtok(buffer," ");
+	char* tmp;
+	strcpy(tmp,"./");
+	
+	strcat(tmp,reduce);
+	printf(" %s\n",tmp);
     while (reduce != NULL) {
        pid = fork();
 	if(pid==0){
-	        int finish = system(reduce);
+	        int finish = system(tmp);
+	        printf("MY PROCESS ID = %d\n",getpid());
 	        exit(1);
 		}
 		else{int status = 0;
-		    printf(" %s\n",reduce);
+		    
 	        reduce = strtok(NULL," ");
+	        if(reduce){
+	        memset(tmp,0,sizeof(tmp));
+	        printf(" %s\n",tmp);
+	        strcpy(tmp,"./");
+	        strcat(tmp,reduce);
+	        printf(" %s\n",tmp);
+	        }
 		    wait(&status);}
 		
     }
