@@ -16,6 +16,8 @@ int main(){
 
 
 	while (1) {
+		printf("Enter your program names seperated by spaces\n");
+		printf("This program will then execute them in the order you typed their names in\n");
 		printf("batch-shell> ");
 		fgets(buffer,1000,stdin);
 		buffer[strlen(buffer)-1] = 0;
@@ -30,33 +32,21 @@ int main(){
 			char* clone[1000];
 		    int pid;
 			reduce = strtok(buffer," ");
-			char* tmp;
-			strcpy(tmp,"./");
-			strcat(tmp,reduce);
 
     			while (reduce != NULL) {
 			       pid = fork();
 
 				if(pid==0){
 						printf("MY PROCESS ID = %d\n",getpid());
-				        int finish = system(tmp);
+				        int finish = execv(reduce,NULL);
 				        exit(1);
 					}
-					
-					else{
 
+					else{
 						int status = 0;
 				        reduce = strtok(NULL," ");
-
-				        	if(reduce){
-
-						        memset(tmp,0,sizeof(tmp));
-						        strcpy(tmp,"./");
-						        strcat(tmp,reduce);
-
-				       		}
-
-					    wait(&status);}
+					    wait(&status);
+						}
 					
 			    }
 
