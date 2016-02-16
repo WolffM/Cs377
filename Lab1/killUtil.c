@@ -43,4 +43,5 @@ int i = 0;
 		else {
 			printf("THIS PROCESS ID IS NOT VALID PROCESS ID PROCESS COULD NOT BE FOUND, PROCESS ID = %d", currentPid);}
     }
+    return 0;
 }
