@@ -11,32 +11,38 @@
 
 int main(){
 
-	char frontbuff[1000];
+	char buffer[1000];
 	char final[1000];
 
 
 	while (1) {
 		printf("batch-shell> ");
 		fgets(buffer,1000,stdin);
-
+		buffer[strlen(buffer)-1] = 0;
+		if(strcmp(buffer,"q") == 0){
+			printf("EXITING BATCH-SHELL\n");
+			exit(1);
+		}
+			
 	char* reduce;
 	int finish;
 	char* clone[1000];
-
-	reduce = strtok(buffer,tmp);
-    while (reduce!=NULL) {
-		temp[c] = reduce;
-		c++;
-    }
-	for(int x=0; x < c; x++){
-		if(fork()==0){
-	        strcat(final,clone[x]);
-	        strtok(final,"\n");
-
-	        finish = execl(bin,buffer,NULL);
+    int pid;
+	reduce = strtok(buffer," ");
+    while (reduce != NULL) {
+        pid = fork();
+	if(pid==0){
+	       /* strcat(final,clone[x]);
+	        strtok(final,"\n");*/
+            
+	        int finish = system(buffer);
+	        reduce = strtok(NULL," ");
+	        exit(0);
 		}
-		waitpid(-1,NULL,0);
+		else{wait(0);}
+		
     }
+
   }
 	return 0;
 }
