@@ -30,16 +30,15 @@ int main(){
     int pid;
 	reduce = strtok(buffer," ");
     while (reduce != NULL) {
-        pid = fork();
+       pid = fork();
 	if(pid==0){
-	       /* strcat(final,clone[x]);
-	        strtok(final,"\n");*/
-            
-	        int finish = system(buffer);
-	        reduce = strtok(NULL," ");
-	        exit(0);
+	        int finish = system(reduce);
+	        exit(1);
 		}
-		else{wait(0);}
+		else{int status = 0;
+		    printf(" %s\n",reduce);
+	        reduce = strtok(NULL," ");
+		    wait(&status);}
 		
     }
 
