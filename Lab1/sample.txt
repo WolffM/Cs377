@@ -1,3 +1,28 @@
+Part 1. 
+Grandchild process with process id 34 has complete.                                                           
+Child process with process id 33 has complete.                                                               
+Parent process with process id 32 has complete.
+
+
+
+Part 2.
+
+Type in number of process ids to terminate
+8                
+Number to kill = 8  
+Enter Processes to Terminate  
+Enter -1 to end stop sending  
+7                             
+PROCESS ID TO KILL PID = 7 ADDED  
+-1                                 
+PROCESS ID TO KILL PID = -1 ADDED   
+THIS PROCESS ID IS NOT VALID PROCESS ID PROCESS COULD NOT BE FOUND, PROCESS ID = 7 
+OUT OF PROCESSES EXITING...  
+                                                                                                                                                                                                                                   
+
+
+
+Part 3.
 MY PROCESS ID = 92
 This is test1 exectuing!
 MY PROCESS ID = 93
