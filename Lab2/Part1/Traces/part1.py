@@ -29,6 +29,7 @@ def fcfs(data):
 	for i in data:
 		awt += i[4]
 	print awt/jobs[0]
+	return data
 
 def rr(data):
 	t = 0
@@ -77,6 +78,8 @@ def rr(data):
 	for i in data:
 		awt += i[4]
 	print awt/jobs[0]
+
+	return data
 
 
 
