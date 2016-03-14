@@ -1,11 +1,7 @@
 from __future__ import division
-import random
-import math
-from multiprocessing import Pool
 import copy
 
 def fcfs(data):
-	curr_q = []
 	ready_q = []
 	job_id = 1
 	sim_clock = -1
@@ -17,38 +13,31 @@ def fcfs(data):
 		i.insert(-2, job_id)
 		job_id += 1
 	for i in data:
-		i.append(0)
-		i.append(0)
+		i.append(0) #this was supposed to be Completion Time. 
+		i.append(0) #this is wait time
 	# print "________________________________________________________________"
-	# print "FCFS"
 	# print "sim_time is: ",sim_time[0]
-	while (sim_clock <= (sim_time[0] + max_len[0]) or len(curr_q) > 0):
+	# print "FCFS"
+	while (sim_clock <= (sim_time[0] + max_len[0]) or len(ready_q) > 0):
 		sim_clock += 1
 		# print "================"
 		# print "sim_clock is:", sim_clock
-		# print "================"
-		if len(curr_q) > 0 and curr_q[0][2] == 0 :
-			# print "proccess is done, ID:", curr_q[0][0]
-			total_wait += curr_q[0][4]
-			curr_q.pop(0)
+		# print "================"			
 		for i in data:
 			if sim_clock == i[1]:
 				# print "arrival time is:", i[1]
 				ready_q.append(i)
 		# print "ready_q is:", ready_q
-		# print "curr_q is:", curr_q
-		if len(curr_q) == 0:
-			
-			# print "total_wait is:", total_wait
-			if len(ready_q) > 0:
-				curr_q.append(ready_q.pop(0))
-			# else:
-			# 	# print "IDLE"
-
-		if len(curr_q) > 0:
-			curr_q[0][2] -= 1
-			for i in ready_q:
+		if len(ready_q) > 0:
+			ready_q[0][2] -= 1
+			for i in ready_q[1:]:
 				i[4] += 1
+			if ready_q[0][2] == 0:
+				# print "process is done, ID: ", ready_q[0][0]
+				total_wait += ready_q[0][4]
+				ready_q.pop(0)
+		# else:
+		# 	print "IDLE"
 	# print "total_wait is:", total_wait
 	# print "AWT is :", total_wait/jobs[0]
 	# print "________________________________________________________________"
@@ -106,10 +95,11 @@ def rr(data):
 
 def main():
 
-	traces = ['100-100-11.txt', '100-100-6.txt', '100-100-8.txt', '100-200-11.txt', '100-200-6.txt', '100-200-8.txt', '100-600-11.txt', '100-600-6.txt', '100-600-8.txt']
+	traces = ['100-100-11.txt', '100-100-6.txt', '100-100-8.txt',
+	 '100-200-11.txt', '100-200-6.txt', '100-200-8.txt',
+	  '100-600-11.txt', '100-600-6.txt', '100-600-8.txt']
 
 	for i in traces:
-
 		with open(i, 'r') as f:
 		   data = []
 		   for line in f:
