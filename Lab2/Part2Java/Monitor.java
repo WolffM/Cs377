@@ -1,3 +1,6 @@
+#import <stdio.h>;
+#import java.util.concurrent.*;
+
 Class Monitor{
         public Monitor(int s)
         {
@@ -5,7 +8,7 @@ Class Monitor{
             int size = s;
         }
 
-        synchronized void insert()
+        synchronized void enqueue() throws InterruptedException
         {
             while(counter == size){
                 wait();
@@ -16,7 +19,7 @@ Class Monitor{
                 notify();
         }
 
-        synchronized void remove()
+        synchronized void dequeue() throws InterruptedException
         {
             while(counter == 0){
                 wait();
