@@ -3,15 +3,21 @@
 class Queue{
 	Monitor locker;
 }
-	public Queue(){
-		locker = new Monitor(10);
-	}
 
-public static void main(String[] args) {
-	Producer prod1 = new Producer(locker.size);
-	Consumer cons1 = new Consumer(locker.size);
-	Consumer cons2 = new Consumer(locker.size);
+/*
+Args should come in the order:
+
+0 = number of consumers
+1 = max duration of a request
+2 = sleep time for producer
+*/
+public static void main(int[] args) {
+	Producer prod1 = new Producer(locker, args[2], args[1]);
 	prod1.start();
-	cons1.start();
-	cons2.start();
+	
+	locker = new Monitor(10);
+	
+	for(int x = args[0]; x>0; x--){
+	new Consumer(locker).start();
+	}
 }
