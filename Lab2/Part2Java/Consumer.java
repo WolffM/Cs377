@@ -11,7 +11,7 @@ public class Consumer extends Thread{
         public void run() {
             while(true)
             {
-              locker.remove();
+              locker.dequeue();
             }
         }
     }
