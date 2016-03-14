@@ -1,30 +1,29 @@
-from __future__ import division
-import copy
+# from __future__ import division
 
 def fcfs(data):
-	ready_q = []
+	ready_q = [] #after the jobs arrive, they go to this ready queue
 	job_id = 1
 	sim_clock = -1
-	jobs = data.pop(0)
-	sim_time = data.pop(0)
-	max_len = data.pop(0)
+	jobs = data.pop(0) #trimming the header data
+	sim_time = data.pop(0) #trimming the header data
+	max_len = data.pop(0) #trimming the header data
 	total_wait = 0
-	for i in data: #adding job ID
+	for i in data: #adding job ID, just in case
 		i.insert(-2, job_id)
 		job_id += 1
 	for i in data:
-		i.append(0) #this was supposed to be Completion Time. 
+		i.append(0) #this was suppose to be Completion Time. 
 		i.append(0) #this is wait time
 	# print "________________________________________________________________"
 	# print "sim_time is: ",sim_time[0]
 	# print "FCFS"
-	while (sim_clock <= (sim_time[0] + max_len[0]) or len(ready_q) > 0):
+	while (sim_clock <= (sim_time[0] + max_len[0]) or len(ready_q) > 0): #the simulation loop
 		sim_clock += 1
 		# print "================"
 		# print "sim_clock is:", sim_clock
 		# print "================"			
-		for i in data:
-			if sim_clock == i[1]:
+		for i in data: #checking the data pool for arriving processes 
+			if sim_clock == i[1]: 
 				# print "arrival time is:", i[1]
 				ready_q.append(i)
 		# print "ready_q is:", ready_q
