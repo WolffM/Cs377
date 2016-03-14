@@ -11,7 +11,7 @@ public class Producer extends Thread{
         public void run() {
             while(true)
             {
-              locker.insert();
+              locker.enqueue();
             }
         }
     }
