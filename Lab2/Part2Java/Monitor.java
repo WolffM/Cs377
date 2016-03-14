@@ -8,24 +8,24 @@ Class Monitor{
             int size = s;
         }
 
-        synchronized void enqueue() throws InterruptedException
+        synchronized void enqueue(int[] request) throws InterruptedException
         {
             while(counter == size){
                 wait();
             }
             counter++;
-            System.out.println("Producer: " + counter);
+            System.out.println("Producer: produced request "+request[0]+", length "request[1]" seconds at time "+LocalDateTime.now());
             if(counter == 1)
                 notify();
         }
 
-        synchronized void dequeue() throws InterruptedException
+        synchronized void dequeue(int[] request) throws InterruptedException
         {
             while(counter == 0){
                 wait();
             }
             counter--;
-            System.out.println("Consumer: " + counter);
+            System.out.println("Consumer: completed request ID"+request[0]+" at time "+LocalDateTime.now());
             if(counter == (size-1))
                 notify();
         }
