@@ -1,4 +1,7 @@
 Part one is written in Python (2.7)
+The script is in the "Traces" folder
+To run type "python part1.py" in your terminal
+Python must be installed
 
 The implementation is straight forward.
 Program parses the data from trace files,
