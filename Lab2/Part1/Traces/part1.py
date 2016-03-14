@@ -5,96 +5,127 @@ from multiprocessing import Pool
 import copy
 
 def fcfs(data):
-	jobs = data.pop(0)
-	sim_time = data.pop(0)
-	max_len = data.pop(0)
-	ct = data[0][1]
-	data[0].append(data[0][1])
-	for i in data[1:]:
-		# print "ct is:"
-		# print ct
-		ct += i[1]
-		i.append(ct)
-	for i in data:
-		i.append(i[2]-i[0])
-	# print '###########################'
-	# print data
-	for i in data:
-		i.append(i[3]-i[1])
-	# print '###########################'
-	# print data
-
-	print 'avg WT is:'
-	awt = 0
-	for i in data:
-		awt += i[4]
-	print awt/jobs[0]
-	return data
-
-def rr(data):
-	t = 0
-	g_chart = []
+	curr_q = []
 	ready_q = []
+	job_id = 1
+	sim_clock = -1
 	jobs = data.pop(0)
 	sim_time = data.pop(0)
 	max_len = data.pop(0)
-	job_id = 1
+	total_wait = 0
 	for i in data: #adding job ID
 		i.insert(-2, job_id)
 		job_id += 1
-	temp = copy.deepcopy(data)
-	ready_q.append(temp[0])
-	
-	while len(ready_q) > 0:
-		curr = ready_q.pop(0)
-		g_chart.append(curr)
-		curr[2] -= 1
-		if(curr[2] > 0):
-			ready_q.append(curr)
-		t += 1
-		for i in temp:
-			i[1] -= 1
-			if i[1] == 0:
+	for i in data:
+		i.append(0)
+		i.append(0)
+	# print "________________________________________________________________"
+	# print "FCFS"
+	# print "sim_time is: ",sim_time[0]
+	while (sim_clock <= (sim_time[0] + max_len[0]) or len(curr_q) > 0):
+		sim_clock += 1
+		# print "================"
+		# print "sim_clock is:", sim_clock
+		# print "================"
+		if len(curr_q) > 0 and curr_q[0][2] == 0 :
+			# print "proccess is done, ID:", curr_q[0][0]
+			total_wait += curr_q[0][4]
+			curr_q.pop(0)
+		for i in data:
+			if sim_clock == i[1]:
+				# print "arrival time is:", i[1]
 				ready_q.append(i)
+		# print "ready_q is:", ready_q
+		# print "curr_q is:", curr_q
+		if len(curr_q) == 0:
+			
+			# print "total_wait is:", total_wait
+			if len(ready_q) > 0:
+				curr_q.append(ready_q.pop(0))
+			# else:
+			# 	# print "IDLE"
 
-	for i in data:
-		curr = 0
-		for j in xrange(len(g_chart)):
-			if i[0] == g_chart[j][0]:
-				curr = j
-		i.append(curr+1)
-	for i in data:
-		i.append(i[3]-i[1])
-	for i in data:
-		i.append(i[4]-i[2])
-	# print '##########################'
-	# print g_chart
-	# print '##########################'
-	# print ready_q
-	print '##########################'
-	print data
-	print 'avg WT is:'
-	awt = 0
-	for i in data:
-		awt += i[4]
-	print awt/jobs[0]
+		if len(curr_q) > 0:
+			curr_q[0][2] -= 1
+			for i in ready_q:
+				i[4] += 1
+	# print "total_wait is:", total_wait
+	# print "AWT is :", total_wait/jobs[0]
+	# print "________________________________________________________________"
+	return total_wait/jobs[0]
 
-	return data
+
+
+def rr(data):
+	curr_q1 = []
+	ready_q1 = []
+	job_id = 1
+	sim_clock = -1
+	jobs = data.pop(0)
+	sim_time = data.pop(0)
+	max_len = data.pop(0)
+	total_wait = 0
+	for i in data: #adding job ID
+		i.insert(-2, job_id)
+		job_id += 1
+	for i in data:
+		i.append(0)
+		i.append(0)
+	# print "________________________________________________________________"
+	# # print "sim_time is: ",sim_time[0]
+	# print "RR"
+	while (sim_clock <= (sim_time[0] + max_len[0]) or len(ready_q1) > 0):
+		sim_clock += 1
+		# print "================"
+		# print "sim_clock is:", sim_clock
+		# print "================"			
+		for i in data:
+			if sim_clock == i[1]:
+				# print "arrival time is:", i[1]
+				ready_q1.append(i)
+		# print "ready_q1 is:", ready_q1
+		if len(ready_q1) > 0:
+			ready_q1[0][2] -= 1
+			for i in ready_q1[1:]:
+				i[4] += 1
+			if ready_q1[0][2] == 0:
+				# print "process is done, ID: ", ready_q1[0][0]
+				total_wait += ready_q1[0][4]
+				ready_q1.pop(0)
+			else:
+				ready_q1.append(ready_q1.pop(0))
+		# else:
+		# 	print "IDLE"
+	# print "total_wait is:", total_wait
+	# print "AWT is :", total_wait/jobs[0]
+	# print "________________________________________________________________"
+	return total_wait/jobs[0]
+
 
 
 
 def main():
-    with open('5-100-6.txt', 'r') as f:
-       data = []
-       for line in f:
-       		data.append([int(v) for v in line.split()])
-    print data
-    with open('5-100-6.txt', 'r') as f:
-    	data1 = []
-    	for line in f:
-    		data1.append([int(v) for v in line.split()])
-    fcfs(data)
-    rr(data1)
+
+	traces = ['100-100-11.txt', '100-100-6.txt', '100-100-8.txt', '100-200-11.txt', '100-200-6.txt', '100-200-8.txt', '100-600-11.txt', '100-600-6.txt', '100-600-8.txt']
+
+	for i in traces:
+
+		with open(i, 'r') as f:
+		   data = []
+		   for line in f:
+		   		data.append([int(v) for v in line.split()])
+		print "FCFS ", i[:-4]+":", fcfs(data)
+		del data[:]
+
+
+	for i in traces:
+		with open(i, 'r') as f:
+			data1 = []
+			for line in f:
+				data1.append([int(v) for v in line.split()])
+		
+		print "RR ", i[:-4]+":", rr(data1)
+		del data1[:]
 
 
 main()
