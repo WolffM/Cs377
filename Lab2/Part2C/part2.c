@@ -3,20 +3,18 @@
 #include <pthread.h>
 #include <unistd.h>
 
-pthread_mutex_t mutex;
-pthread_mutex_t timeMutex;
-pthread_mutex_t timeMutex2;
-int CURRENT_TIME = 0;
-int CURRENT_TIME_SLAVES = 0;
+pthread_mutex_t mutex; //mutex to access the queue
+pthread_mutex_t timeMutex; //mutex to access the global time variable
+int CURRENT_TIME = 0; // current time global variable incremented only by the master thread
 
-struct Node
+struct Node //struct to represents nodes in a queue
 {
 	struct Request * data;
 	struct Node * next;
 	
 };
 
-struct MasterInstructions
+struct MasterInstructions //a struct representing a set of instructions
 {
 	int maxJobNumber;
 	int maxJobLength;
@@ -28,14 +26,14 @@ struct Node* head = NULL; //global head and tail for managing the queue
 
 struct Node* tail = NULL;
 
-struct Request
+struct Request //struct representing a request
 {
 	int jobTime;
 	int id;
 
 };
 
-void add(struct Request * x)
+void add(struct Request * x) //queue add method adds node to end of queue
 {
 	struct Node * newNode = (struct Node*)malloc(sizeof(struct Node));
 	newNode->data = x;
@@ -50,7 +48,7 @@ void add(struct Request * x)
 	tail = newNode;
 }
 
-struct Node* poll()
+struct Node* poll() //queue poll method (removes head of queue if the head is null returns null)
 {
 	if(head == NULL)
 	{
@@ -70,27 +68,25 @@ struct Node* poll()
 	return temp;
 }
 
-void * mastermethod(void * instructions)
+void * mastermethod(void * instructions) //function for the master thread to execute
 {
-	printf("IN MASTER METHOD\n");
-	struct MasterInstructions * instructionSet = (struct MasterInstructions *)instructions;
-	int value = instructionSet->maxJobNumber;
-	printf("NUMBER OF JOBS TO MAKE %d\n",value);
+	struct MasterInstructions * instructionSet = (struct MasterInstructions *)instructions; //cast the instruction set to the right pointer type
+	int value = instructionSet->maxJobNumber; //get the max job number value
 	int x = 0;
-	while(x<=value-1)
+	while(x<value) // while x < maxJob Number
 	{
-		struct Request * newRequest = (struct Request*)malloc(sizeof(struct Request));
-		pthread_mutex_lock(&mutex);
+		struct Request * newRequest = (struct Request*)malloc(sizeof(struct Request));//generate a new request
+		pthread_mutex_lock(&mutex); //lock the queue
 		newRequest->jobTime = rand() % (instructionSet->maxJobLength + 1 - 1) + 1;
 		newRequest->id = x;
-		add(newRequest);
-		pthread_mutex_unlock(&mutex);
-		printf("Producer: produced request ID %d, job length %d seconds, current time is %d\n" , newRequest->id+1,newRequest->jobTime,CURRENT_TIME);
+		add(newRequest); //add the new request to the queue
+		pthread_mutex_unlock(&mutex);// unlock to prevent deadlock!
+		printf("Producer: produced request ID %d, job length %d seconds, current time is %d\n" , newRequest->id+1,newRequest->jobTime,CURRENT_TIME); //print some useful info
 		printf("Producer: sleeping for %d seconds...\n", instructionSet->timeBetweenJobs);
-		sleep(instructionSet->timeBetweenJobs);
-		pthread_mutex_lock(&timeMutex);
-		CURRENT_TIME = CURRENT_TIME + instructionSet->timeBetweenJobs;
-		pthread_mutex_unlock(&timeMutex);
+		sleep(instructionSet->timeBetweenJobs); //sleep for the designated time between jobs
+		pthread_mutex_lock(&timeMutex); //lock time
+		CURRENT_TIME = CURRENT_TIME + instructionSet->timeBetweenJobs; //increment time
+		pthread_mutex_unlock(&timeMutex); //unlock time
 		
 		x = x+1;
 	}
@@ -102,37 +98,35 @@ void * mastermethod(void * instructions)
 void * slavemethod(void * threadID)
 {
 
-	int * idPointer = (int *)threadID;
+	int * idPointer = (int *)threadID; // grab the id of this thread
 	
-	int id = *idPointer;
+	int id = *idPointer; 
 	
-	struct Node * job = NULL;
+	struct Node * job = NULL; //initiate a node pointer
 	
 
-	while(!job)
+	while(!job) //while there is no job
 	{
-	pthread_mutex_lock(&mutex);
-	 job = poll();
-	pthread_mutex_unlock(&mutex);
+	pthread_mutex_lock(&mutex); //lock the queue
+	 job = poll(); //try and get a job
+	pthread_mutex_unlock(&mutex); //unlock the queue
 	}
-	pthread_mutex_lock(&timeMutex);
-	int slaveTime = CURRENT_TIME;
-	pthread_mutex_unlock(&timeMutex);		
-	printf("Consumer %d: assigned request ID %d, processing request for the next %d seconds, current time is %d\n",id, job->data->id+1,job->data->jobTime,slaveTime);
-	sleep(job->data->jobTime);
-	printf("Consumer %d: completed request ID %d at time %d\n",id,job->data->id+1,slaveTime+job->data->jobTime);
+	pthread_mutex_lock(&timeMutex); //lock time
+	int slaveTime = CURRENT_TIME; //set time you get the job
+	pthread_mutex_unlock(&timeMutex);//unlock time		
+	printf("Consumer %d: assigned request ID %d, processing request for the next %d seconds, current time is %d\n",id, job->data->id+1,job->data->jobTime,slaveTime); //print some useful info!
+	sleep(job->data->jobTime); //run the job
+	printf("Consumer %d: completed request ID %d at time %d\n",id,job->data->id+1,slaveTime+job->data->jobTime); // print more info!
 	return NULL;
 }
 
 
 int main()
 {
-int t = 1;
-int N =5;
-int maxJobNumber;
+int maxJobNumber; 
 int maxJobLength;
 int timeBetweenJobs;
-
+//take in parameters for maxjobNumber maxJobLength and timeBetweenJobs designated by the user
 printf("Enter Number of Slaves\n");
 scanf("%d",&maxJobNumber);
 
@@ -143,20 +137,22 @@ printf("Enter Time Between Job Creation\n");
 scanf("%d",&timeBetweenJobs);
 
 
-
+// create a new set of master instructions
 struct MasterInstructions * instructions = (struct MasterInstructions*)malloc(sizeof(struct MasterInstructions));
 instructions->maxJobLength = maxJobLength;
 instructions->maxJobNumber = maxJobNumber;
 instructions->timeBetweenJobs =timeBetweenJobs;
-
+//create the master thread
 pthread_t threads[instructions->maxJobNumber +1];
 pthread_create(&threads[0],NULL,mastermethod, (void *)instructions);
 printf("CREATED MASTER THREAD \n");
 
 	for(int i = 1; i < instructions->maxJobNumber+1 ; i++)
 	{
+		//create a new thread id for each thread
 	int * x = (int *)malloc(sizeof(int));
 	*x = i;
+	//create the slave thread
 	pthread_create(&threads[i], NULL,slavemethod, (void *)x);
 	printf("CREATED SLAVE THREAD  %d\n",i);
 	}
