@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include java.lang.*
 
 public class Producer extends Thread{
