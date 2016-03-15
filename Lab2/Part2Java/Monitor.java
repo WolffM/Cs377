@@ -23,13 +23,14 @@ Class Monitor{
 
         synchronized void dequeue() throws InterruptedException
         {
-            System.out.println("Consumer: assigned request ID "+MasterQueue.peek()[0]+", processing request for the next "+MasterQueue.peek()[0]" seconds, current time is "+LocalDateTime.now());
+            int[] temp = MasterQueue.peek();
+            System.out.println("Consumer: assigned request ID "+temp[0]+", processing request for the next "+temp[1]" seconds, current time is "+LocalDateTime.now());
             while(counter == 0){
                 wait();
             }
             MasterQueue.remove();
             counter--;
-            System.out.println("Consumer: completed request ID"+MasterQueue.peek()[0]+" at time "+LocalDateTime.now());
+            System.out.println("Consumer: completed request ID"+temp[0]+" at time "+LocalDateTime.now());
             if(counter == (size-1))
                 notify();
         }
