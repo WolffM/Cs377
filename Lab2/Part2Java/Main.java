@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-class Queue{
+class Main{
 	public Monitor locker;
 }
 
