@@ -14,7 +14,7 @@ public class Producer extends Thread{
         int reqLength = Math.floor(Math.random()*l);
         int ID = Math.floor(Math.random()*100);
           int[] request = (ID, reqLength);
-          Queue.locker.enqueue(request);
+          Main.locker.enqueue(request);
           System.out.println("Producer: sleeping for "+s+" seconds");
           sleep(s);
         }
