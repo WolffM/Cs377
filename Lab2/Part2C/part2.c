@@ -4,7 +4,10 @@
 #include <unistd.h>
 
 pthread_mutex_t mutex;
-
+pthread_mutex_t timeMutex;
+pthread_mutex_t timeMutex2;
+int CURRENT_TIME = 0;
+int CURRENT_TIME_SLAVES = 0;
 
 struct Node
 {
@@ -74,7 +77,7 @@ void * mastermethod(void * instructions)
 	int value = instructionSet->maxJobNumber;
 	printf("NUMBER OF JOBS TO MAKE %d\n",value);
 	int x = 0;
-	while(x<=value)
+	while(x<=value-1)
 	{
 		struct Request * newRequest = (struct Request*)malloc(sizeof(struct Request));
 		pthread_mutex_lock(&mutex);
@@ -82,8 +85,12 @@ void * mastermethod(void * instructions)
 		newRequest->id = x;
 		add(newRequest);
 		pthread_mutex_unlock(&mutex);
-		printf("CREATED JOB UNLOCKING\n");
+		printf("Producer: produced request ID %d, job length %d seconds, current time is %d\n" , newRequest->id+1,newRequest->jobTime,CURRENT_TIME);
+		printf("Producer: sleeping for %d seconds...\n", instructionSet->timeBetweenJobs);
 		sleep(instructionSet->timeBetweenJobs);
+		pthread_mutex_lock(&timeMutex);
+		CURRENT_TIME = CURRENT_TIME + instructionSet->timeBetweenJobs;
+		pthread_mutex_unlock(&timeMutex);
 		
 		x = x+1;
 	}
@@ -98,7 +105,7 @@ void * slavemethod(void * threadID)
 	int * idPointer = (int *)threadID;
 	
 	int id = *idPointer;
-	printf("THREAD ID%d\n",id);
+	
 	struct Node * job = NULL;
 	
 
@@ -107,11 +114,13 @@ void * slavemethod(void * threadID)
 	pthread_mutex_lock(&mutex);
 	 job = poll();
 	pthread_mutex_unlock(&mutex);
-	}		
-	printf("THREAD: %d, ASSIGNED JOB %d\n",id, job->data->id+1);
+	}
+	pthread_mutex_lock(&timeMutex);
+	int slaveTime = CURRENT_TIME;
+	pthread_mutex_unlock(&timeMutex);		
+	printf("Consumer %d: assigned request ID %d, processing request for the next %d seconds, current time is %d\n",id, job->data->id+1,job->data->jobTime,slaveTime);
 	sleep(job->data->jobTime);
-	printf("JOB COMPLETED RUNTIME : %d BY THREAD %d\n",job->data->jobTime,id);
-	printf("JOB ID : %d\n", job->data->id +1);
+	printf("Consumer %d: completed request ID %d at time %d\n",id,job->data->id+1,slaveTime+job->data->jobTime);
 	return NULL;
 }
 
@@ -142,7 +151,7 @@ instructions->timeBetweenJobs =timeBetweenJobs;
 
 pthread_t threads[instructions->maxJobNumber +1];
 pthread_create(&threads[0],NULL,mastermethod, (void *)instructions);
-printf("CREATED MASTER THREAD\n");
+printf("CREATED MASTER THREAD \n");
 
 	for(int i = 1; i < instructions->maxJobNumber+1 ; i++)
 	{
