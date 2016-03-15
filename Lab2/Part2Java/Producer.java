@@ -1,21 +1,27 @@
-#include java.lang.*
+import java.lang.*;
 
 public class Producer extends Thread{
-    int s, l;
+    int s, l, ID, reqLength;
     
     public Producer(int sleeptime, int maxlength){
-    s = sleeptime;
-    l = maxlength;
+      s = sleeptime;
+      l = maxlength;
     }
-    public void run() {
-        while(1)
+  	@Override
+    public void run(){
+        while(true)
         {
-        int reqLength = Math.floor(Math.random()*l);
-        int ID = Math.floor(Math.random()*100);
-          int[] request = (ID, reqLength);
-          Main.locker.enqueue(request);
-          System.out.println("Producer: sleeping for "+s+" seconds");
-          sleep(s);
+          reqLength = (int)Math.floor(Math.random()*1.00);
+          ID = (int)Math.floor(Math.random()*100.00);
+          int[] request = new int[]{ID, reqLength};
+              try{
+                Main.locker.enqueue(request);
+                System.out.println("Producer: sleeping for "+s+" seconds");
+                sleep(s);
+              }
+              catch(InterruptedException e){
+              	System.out.println("Exception at Producer enqueue");
+              }
         }
     }
 }
