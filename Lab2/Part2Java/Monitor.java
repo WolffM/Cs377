@@ -1,4 +1,3 @@
-#import <stdio.h>;
 #import java.util.*;
 
 Class Monitor{
