@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 class Main{
 	public Monitor locker;
 }
