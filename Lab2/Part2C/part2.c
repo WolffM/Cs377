@@ -13,9 +13,10 @@ struct Node
 	
 };
 
-struct masterInstructions
+struct MasterInstructions
 {
 	int maxJobNumber;
+	int maxJobLength;
 	int timeBetweenJobs;
 
 };
@@ -66,23 +67,24 @@ struct Node* poll()
 	return temp;
 }
 
-void * mastermethod(void * N)
+void * mastermethod(void * instructions)
 {
 	printf("IN MASTER METHOD\n");
+	struct MasterInstructions * instructionSet = (struct MasterInstructions *)instructions;
+	int value = instructionSet->maxJobNumber;
+	printf("NUMBER OF JOBS TO MAKE %d\n",value);
 	int x = 0;
-	int * value = (int*)N;
-	int trueValue = *value;
-	printf("NUMBER OF JOBS TO MAKE %d\n",trueValue);
-	while(x<=trueValue)
+	while(x<=value)
 	{
 		struct Request * newRequest = (struct Request*)malloc(sizeof(struct Request));
 		pthread_mutex_lock(&mutex);
-		newRequest->jobTime = 3;
+		newRequest->jobTime = rand() % (instructionSet->maxJobLength + 1 - 1) + 1;
 		newRequest->id = x;
 		add(newRequest);
 		pthread_mutex_unlock(&mutex);
-		sleep(1);
 		printf("CREATED JOB UNLOCKING\n");
+		sleep(instructionSet->timeBetweenJobs);
+		
 		x = x+1;
 	}
 	return NULL;
@@ -117,11 +119,32 @@ void * slavemethod(void * threadID)
 int main()
 {
 int t = 1;
-int N = 5;
-pthread_t threads[N+1];
-pthread_create(&threads[0],NULL,mastermethod, (void *)&N);
+int N =5;
+int maxJobNumber;
+int maxJobLength;
+int timeBetweenJobs;
+
+printf("Enter Number of Slaves\n");
+scanf("%d",&maxJobNumber);
+
+printf("Enter Max Job Length\n");
+scanf("%d",&maxJobLength);
+
+printf("Enter Time Between Job Creation\n");
+scanf("%d",&timeBetweenJobs);
+
+
+
+struct MasterInstructions * instructions = (struct MasterInstructions*)malloc(sizeof(struct MasterInstructions));
+instructions->maxJobLength = maxJobLength;
+instructions->maxJobNumber = maxJobNumber;
+instructions->timeBetweenJobs =timeBetweenJobs;
+
+pthread_t threads[instructions->maxJobNumber +1];
+pthread_create(&threads[0],NULL,mastermethod, (void *)instructions);
 printf("CREATED MASTER THREAD\n");
-	for(int i = 1; i < N ; i++)
+
+	for(int i = 1; i < instructions->maxJobNumber+1 ; i++)
 	{
 	int * x = (int *)malloc(sizeof(int));
 	*x = i;
