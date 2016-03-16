@@ -3,7 +3,7 @@ public class Consumer extends Thread{
     
     public Consumer(){
     }
-    int count = 5;
+    int count = 3;
         @Override
         public void run(){
             while(count != 0)
