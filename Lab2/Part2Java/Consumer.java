@@ -3,9 +3,10 @@ public class Consumer extends Thread{
     
     public Consumer(){
     }
+    int count = 5;
         @Override
         public void run(){
-            while(true)
+            while(count != 0)
             {
               try{
                 Main.locker.dequeue();
@@ -16,6 +17,7 @@ public class Consumer extends Thread{
               catch(InterruptedException e){
               	System.out.println("Exception at Consumer dequeue");
               }
+              count--;
         	}
     	}
 }
