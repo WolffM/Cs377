@@ -38,7 +38,6 @@ public class Monitor{
             }
             MasterQueue.remove();
             counter--;
-            System.out.println("Consumer: completed request ID"+temp[0]+" at time "+System.currentTimeMillis());
             //Let the producer know if the queue is no longer full
             if(counter == (size-1))
                 notify();
