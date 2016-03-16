@@ -29,13 +29,13 @@ public class Monitor{
 
         synchronized void dequeue() throws InterruptedException
         {
-          //Retrieve the end of the queue for it's ID and length
-            int[] temp = MasterQueue.peek();
-            System.out.println("Consumer: assigned request ID "+temp[0]+", processing request for the next "+temp[1]+" seconds, current time is "+System.currentTimeMillis());
             //Wait if the queue is empty
             while(counter == 0){
                 wait();
             }
+            //Retrieve the end of the queue for it's ID and length
+            int[] temp = MasterQueue.peek();
+            System.out.println("Consumer: assigned request ID "+temp[0]+", processing request for the next "+temp[1]+" seconds, current time is "+System.currentTimeMillis());
             MasterQueue.remove();
             counter--;
             //Let the producer know if the queue is no longer full
