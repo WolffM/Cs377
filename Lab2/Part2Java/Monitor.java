@@ -4,7 +4,7 @@ public class Monitor{
   int counter;
   int size;
   //Queue to hold the requests
-  Queue<int[]> MasterQueue;
+  public static Queue<int[]> MasterQueue;
         //Size parameter from args[] and counter start at 0;
         public Monitor(int s)
         {
