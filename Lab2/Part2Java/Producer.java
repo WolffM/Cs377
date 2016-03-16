@@ -11,7 +11,7 @@ public class Producer extends Thread{
     public void run(){
         while(true)
         {
-          reqLength = (int)Math.floor(Math.random()*1.00);
+          reqLength = (int)Math.floor((Math.random()*(double)l)+1);
           ID = (int)Math.floor(Math.random()*100.00);
           int[] request = new int[]{ID, reqLength};
               try{
