@@ -1,16 +1,17 @@
 import java.lang.*;
 
 public class Producer extends Thread{
-    int s, l, ID, reqLength;
+    int s, l, ID, reqLength, count;
     
     //Parameters taken from args[] in Main
-    public Producer(int sleeptime, int maxlength){
+    public Producer(int sleeptime, int maxlength, int numprod){
       s = sleeptime;
       l = maxlength;
+      count = numprod*3;
     }
   	@Override
     public void run(){
-        while(true)
+        while(count != 0)
         {
           /*
           Requests are made with random ID between 1 and 100
@@ -27,6 +28,7 @@ public class Producer extends Thread{
               catch(InterruptedException e){
               	System.out.println("Exception at Producer enqueue");
               }
+              count--;
         }
     }
 }
