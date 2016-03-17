@@ -27,7 +27,7 @@ public class Monitor{
                 notify();
         }
 
-        synchronized void dequeue() throws InterruptedException
+        synchronized int[] dequeue() throws InterruptedException
         {
             //Wait if the queue is empty
             while(counter == 0){
@@ -41,5 +41,6 @@ public class Monitor{
             //Let the producer know if the queue is no longer full
             if(counter == (size-1))
                 notify();
+            return temp;
         }
 }
