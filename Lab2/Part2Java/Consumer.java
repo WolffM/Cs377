@@ -9,8 +9,7 @@ public class Consumer extends Thread{
             while(count != 0)
             {
               try{
-                Main.locker.dequeue();
-                int[] temp = Monitor.MasterQueue.peek();
+               int[] temp = Main.locker.dequeue();
                 sleep(temp[1]);
                 System.out.println("Consumer: completed request ID"+temp[0]+" at time "+System.currentTimeMillis());
               }
