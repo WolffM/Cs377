@@ -18,6 +18,7 @@ public class Consumer extends Thread{
               }
               count--;
         	}
-    	}
-    	System.out.println("Consumer terminated");
+          System.out.println("Consumer terminated");
 }
+    	}
+    	

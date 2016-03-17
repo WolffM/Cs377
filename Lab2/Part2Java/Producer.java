@@ -30,6 +30,7 @@ public class Producer extends Thread{
               }
               count--;
         }
+        System.out.println("Producer terminated.");
     }
-    System.out.println("Producer terminated.");
+    
 }

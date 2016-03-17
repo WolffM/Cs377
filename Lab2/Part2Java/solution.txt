@@ -1,0 +1,136 @@
+solution example with 10 for every parameter consumers die after completing three request so the program doesnt run forever
+
+
+java Main 10 10 10
+
+Producer: produced request 31, length 4 seconds at time 1458174340596
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 31, processing request for the next 4 seconds, current time is 1458174340596
+Consumer: completed request ID31 at time 1458174340600
+Producer: produced request 99, length 8 seconds at time 1458174340606
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 99, processing request for the next 8 seconds, current time is 1458174340606
+Consumer: completed request ID99 at time 1458174340614
+Producer: produced request 24, length 7 seconds at time 1458174340616
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 24, processing request for the next 7 seconds, current time is 1458174340616
+Consumer: completed request ID24 at time 1458174340623
+Producer: produced request 16, length 9 seconds at time 1458174340626
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 16, processing request for the next 9 seconds, current time is 1458174340626
+Consumer: completed request ID16 at time 1458174340635
+Producer: produced request 93, length 5 seconds at time 1458174340636
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 93, processing request for the next 5 seconds, current time is 1458174340636
+Consumer: completed request ID93 at time 1458174340641
+Producer: produced request 49, length 9 seconds at time 1458174340646
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 49, processing request for the next 9 seconds, current time is 1458174340646
+Consumer: completed request ID49 at time 1458174340655
+Producer: produced request 67, length 9 seconds at time 1458174340656
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 67, processing request for the next 9 seconds, current time is 1458174340656
+Consumer: completed request ID67 at time 1458174340665
+Producer: produced request 62, length 8 seconds at time 1458174340666
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 62, processing request for the next 8 seconds, current time is 1458174340666
+Consumer: completed request ID62 at time 1458174340674
+Producer: produced request 29, length 5 seconds at time 1458174340676
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 29, processing request for the next 5 seconds, current time is 1458174340676
+Consumer: completed request ID29 at time 1458174340681
+Producer: produced request 95, length 8 seconds at time 1458174340686
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 95, processing request for the next 8 seconds, current time is 1458174340686
+Consumer: completed request ID95 at time 1458174340694
+Producer: produced request 78, length 5 seconds at time 1458174340696
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 78, processing request for the next 5 seconds, current time is 1458174340696
+Consumer: completed request ID78 at time 1458174340701
+Producer: produced request 59, length 5 seconds at time 1458174340706
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 59, processing request for the next 5 seconds, current time is 1458174340706
+Consumer: completed request ID59 at time 1458174340711
+Producer: produced request 78, length 9 seconds at time 1458174340716
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 78, processing request for the next 9 seconds, current time is 1458174340716
+Consumer: completed request ID78 at time 1458174340725
+Producer: produced request 8, length 6 seconds at time 1458174340726
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 8, processing request for the next 6 seconds, current time is 1458174340726
+Consumer: completed request ID8 at time 1458174340732
+Producer: produced request 74, length 8 seconds at time 1458174340736
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 74, processing request for the next 8 seconds, current time is 1458174340736
+Consumer: completed request ID74 at time 1458174340744
+Producer: produced request 22, length 3 seconds at time 1458174340746
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 22, processing request for the next 3 seconds, current time is 1458174340746
+Consumer: completed request ID22 at time 1458174340749
+Producer: produced request 45, length 4 seconds at time 1458174340756
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 45, processing request for the next 4 seconds, current time is 1458174340756
+Consumer: completed request ID45 at time 1458174340760
+Producer: produced request 80, length 4 seconds at time 1458174340766
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 80, processing request for the next 4 seconds, current time is 1458174340766
+Consumer: completed request ID80 at time 1458174340770
+Producer: produced request 58, length 8 seconds at time 1458174340776
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 58, processing request for the next 8 seconds, current time is 1458174340776
+Consumer: completed request ID58 at time 1458174340784
+Producer: produced request 82, length 7 seconds at time 1458174340786
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 82, processing request for the next 7 seconds, current time is 1458174340786
+Consumer: completed request ID82 at time 1458174340793
+Producer: produced request 8, length 3 seconds at time 1458174340796
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 8, processing request for the next 3 seconds, current time is 1458174340796
+Consumer: completed request ID8 at time 1458174340799
+Consumer terminated
+Producer: produced request 58, length 2 seconds at time 1458174340806
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 58, processing request for the next 2 seconds, current time is 1458174340806
+Consumer: completed request ID58 at time 1458174340808
+Consumer terminated
+Producer: produced request 80, length 1 seconds at time 1458174340816
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 80, processing request for the next 1 seconds, current time is 1458174340816
+Consumer: completed request ID80 at time 1458174340817
+Consumer terminated
+Producer: produced request 38, length 8 seconds at time 1458174340826
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 38, processing request for the next 8 seconds, current time is 1458174340826
+Consumer: completed request ID38 at time 1458174340834
+Consumer terminated
+Producer: produced request 86, length 4 seconds at time 1458174340836
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 86, processing request for the next 4 seconds, current time is 1458174340836
+Consumer: completed request ID86 at time 1458174340840
+Consumer terminated
+Producer: produced request 42, length 2 seconds at time 1458174340846
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 42, processing request for the next 2 seconds, current time is 1458174340846
+Consumer: completed request ID42 at time 1458174340848
+Consumer terminated
+Producer: produced request 49, length 5 seconds at time 1458174340856
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 49, processing request for the next 5 seconds, current time is 1458174340856
+Consumer: completed request ID49 at time 1458174340861
+Consumer terminated
+Producer: produced request 1, length 7 seconds at time 1458174340866
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 1, processing request for the next 7 seconds, current time is 1458174340866
+Consumer: completed request ID1 at time 1458174340873
+Consumer terminated
+Producer: produced request 31, length 6 seconds at time 1458174340876
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 31, processing request for the next 6 seconds, current time is 1458174340876
+Consumer: completed request ID31 at time 1458174340882
+Consumer terminated
+Producer: produced request 95, length 4 seconds at time 1458174340886
+Producer: sleeping for 10 seconds
+Consumer: assigned request ID 95, processing request for the next 4 seconds, current time is 1458174340886
+Consumer: completed request ID95 at time 1458174340890
+Consumer terminated
+Producer terminated.
