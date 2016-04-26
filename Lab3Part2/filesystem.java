@@ -161,6 +161,7 @@ public class filesystem {
 					System.out.print("\nEnter Buffer Size:");
 					temp3 = new char[a.nextInt()];
 					temp3 = read(temp.toCharArray(), temp2, temp3);
+					System.out.println(temp3);
 					break;
 				case 4:
 					System.out.print("Enter String fileName(size <8):");
