@@ -72,7 +72,8 @@ public class filesystem {
 	public static void write(char name[], int blockNum, char buf[]){
 		for(int x = 0; x < 16; x++){
 			if(Arrays.equals(fst.inodes[x].name,name)){
-					data = copyToArray(data, buf.toString().getBytes(), fst.inodes[x].blockPointers[blockNum]*1024);
+					String temp = new String(buf);
+					data = copyToArray(data, temp.getBytes(), fst.inodes[x].blockPointers[blockNum]*1024);
 					System.out.println("Data written!");
 			}
 		}
@@ -160,8 +161,6 @@ public class filesystem {
 					System.out.print("\nEnter Buffer Size:");
 					temp3 = new char[a.nextInt()];
 					temp3 = read(temp.toCharArray(), temp2, temp3);
-					System.out.println(temp3);
-					System.out.println(temp3[1]);
 					break;
 				case 4:
 					System.out.print("Enter String fileName(size <8):");
